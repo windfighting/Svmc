@@ -1,0 +1,129 @@
+Input
+
+Chuyến thăm
+Jang liên tục đến thăm và giúp đỡ một số phòng ban ngay sau khi anh ấy đến làm việc.
+Có một quy luật trong chuyển động của anh ta. Anh ấy ở lại một bộ phận chính xác trong 10 phút.
+Bạn được cung cấp một đồ thị xác suất của chuyển động của họ. Hình 1 là một biểu đồ ví dụ.
+Jang ở lại phòng ban. 1 trong 10 phút; sau đó anh ấy chuyển đến dept. 2 với xác suất là 0,3 (sau đó ở đó trong 10 phút) hoặc chuyển sang bộ phận. 3 với xác suất là 0,7 (sau đó giữ nguyên trong 10 phút). Chúng tôi không xem xét thời gian di chuyển giữa các phòng ban.
+Có thể có nhiều hơn một mũi tên đi ra từ một bộ phận; tổng cơ hội của các mũi tên đi ra từ một bộ phận phải luôn bằng 1.
+Bộ phận đầu tiên mà anh ấy đến thăm luôn là phòng ban. 1.
+Cho trước một biểu đồ xác suất và thời gian T (tính bằng phút), hãy tạo chương trình tìm bộ phận mà Jang ở lại có cơ hội cao nhất tại thời điểm T.
+Ngoài ra, bạn phải báo cáo xác suất tương ứng.
+Trong hình 1 ở trên, bộ phận có cơ hội cao nhất tại thời điểm 10 là bộ phận. 3 và cơ hội là 0,7. Ở thời điểm 9, Jang không bắt đầu di chuyển; vì vậy anh ấy đang ở nợ. 1 với xác suất là 1.
+Nhìn vào tình hình lúc 20. Cơ hội ở nợ. 1 hoặc bộ phận. 2 là 0. Anh ấy rời phòng. 1 chính xác vào thời điểm 10 và nếu anh ta chuyển sang dept. 2 sau đó anh ấy rời khỏi phòng. 2 chính xác vào thời điểm 20.
+Cơ hội được ở Dept. 4 tại thời điểm 20 là 0,3*1,0+0,7*0,8=0,86.
+Khi anh ta đến một bộ phận mà không có bất kỳ mũi tên hướng đi nào, bộ phận đó sẽ trở thành bộ phận cuối cùng mà anh ta đến thăm; anh ta ở lại bộ phận trong 10 phút và rời khỏi công việc.
+Với đồ thị của Hình 2, Jang không đi làm vào thời điểm 50; trong trường hợp của Hình 1, anh ta có thể ở lại làm việc mãi mãi nếu anh ta tiếp tục ở cùng một bộ phận với xác suất lặp lại, ví dụ: bộ phận 3, 4 hoặc 6
+Ngoài ra, còn có một người khác là Kang cũng di chuyển theo cách tương tự như Jang.
+Jang luôn đến làm việc vào thời điểm 0, nhưng Kang đến vào một thời điểm khác muộn hơn so với thời điểm 0. Bạn cũng phải báo cáo cùng một loại nội dung cho Kang.
+Nếu thời gian đến của Kang là 4, các câu trả lời liên quan đến anh ta được tính giống hệt như nguyên tắc của Jang, ngoại trừ anh ta bắt đầu làm việc muộn hơn Jang 4 phút; trong trường hợp này với Hình 2, Kang ở lại phòng. 1 từ lần 4 đến lần 13 trong khi Jang ở lại phòng ban. 1 từ thời điểm 0 đến thời điểm 9.
+
+[Đầu vào]
+
+10 test case được đưa ra. Mỗi trường hợp được đưa ra trong hai dòng. Do đó, đầu vào cần hoàn toàn 20 dòng.
+Đối với mỗi trường hợp, dòng đầu tiên cung cấp N (số phòng ban), E (số mũi tên), K (thời gian Kang đến) và T (thời gian tính bằng phút).
+
+1<=N<=100. 1<=E<=200. 1<=K<=1000. 0<=T<=1000. K<=T.
+
+Dòng tiếp theo liệt kê các mũi tên E. Mỗi mũi tên được biểu thị bằng “xác suất nguồn-đích-đích”. Chỉ mục cho nguồn dept. hoặc bộ phận đích. là một số nguyên trong 1 đến 100, bao gồm cả.
+Số nguyên thời gian K và T tính bằng phút. Ví dụ: nếu thời điểm T là 8, bạn phải xác định các bộ phận mà Jang và Kang tương ứng ở lại với xác suất cao nhất tại thời điểm 8. Các phần tử trong cùng một dòng được phân tách bằng dấu cách. Không có thứ tự đặc biệt trong đó các mũi tên được liệt kê.
+
+[Đầu ra]
+
+Bạn viết 10 câu trả lời trong 10 dòng.
+
+Mỗi dòng bắt đầu bằng “#x” (Ở đây, x có nghĩa là chỉ số trường hợp.), đặt một khoảng trắng và viết câu trả lời.
+
+Câu trả lời bao gồm chỉ mục bộ phận có cơ hội cao nhất theo sau là xác suất tương ứng. Bộ phận chỉ số là một số nguyên và xác suất là một số thực, cách nhau bởi khoảng trắng.
+Nếu có nhiều bộ phận có cơ hội cao nhất, bạn viết bộ phận đó. của chỉ số thấp nhất.
+Nếu Jang không có ở bất kỳ bộ phận nào vào thời gian đã chỉ định, bạn chỉ cần viết “0 0,000000”. Xác suất là một số thực từ 0 đến 1, bao gồm; nó phải chính xác đến sáu chữ số thập phân.
+Một tập hợp khác của một bộ phận và xác suất tương ứng phải được cung cấp cho Kang. Do đó, câu trả lời bao gồm tổng cộng bốn số.
+
+
+/// source
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <iostream>
+using namespace std ; 
+int n , e , k , time1 ; 
+int A[110][101];
+float xs[101][101] ; 
+float P[101][101] ; 
+int max(int t)
+{
+	int max1 = 0 ; 
+	for(int i = 1 ; i <= n ; i++ )
+	{
+		if(P[i][t] > P[max1][t])
+		{
+			max1 = i ; 
+		}
+	}
+	for(int i = 1 ; i <= n ; i++ )
+	{
+		if(P[i][t] == P[max1][t])
+		{
+			if(max1 > i)
+			{
+				max1 = i ; 
+			}
+		}	
+	}
+	return max1 ; 
+}
+int main()
+{
+	freopen("input.txt" , "r" , stdin) ; 
+	for(int tc = 1 ; tc <= 10 ; tc ++)
+	{
+		
+		cin >> n >> e >> k >> time1 ; 
+		for(int i = 1 ; i <= 101 ; i++ )
+		{
+			for(int j = 1 ; j <= 101 ; j++ )
+			{
+				P[i][j] = 0 ; 
+				A[i][j] = 0 ; 
+				xs[i][j] = 0 ; 
+			}
+		}
+		for(int i = 0 ; i < e ; i++)
+		{
+			int x , y ; 
+			float xs1; 
+			cin >> x >> y ;
+			scanf("%f",&xs1);
+			xs[x][y] = 0 ; 
+			A[x][0] ++ ; 
+			A[x][A[x][0]] = y ; 
+			
+			xs[x][y] = (float)xs1 ; 
+		}
+		int t = 1 ; 
+		P[1][1] = 1 ; 
+		while(t <= (time1/10))
+		{
+			for(int i = 1 ; i <= n ; i++)
+			{
+				if(P[i][t] != 0)
+				{
+					for(int j = 1 ; j <= A[i][0]; j++)
+					{
+						P[A[i][j]][t+1] += P[i][t] * xs[i][A[i][j]];
+					}
+				}
+			}
+			t++ ;
+		}
+		int kq1 = max(t) ; 
+		int kq2 = max((time1- k)/10 + 1);
+		printf("#%d %d %.6lf %d %.6lf" , tc,kq1,P[kq1][t] ,kq2, P[kq2][(time1- k)/10 + 1] );
+		//cout << "#" << tc  << " " << kq1 << " " << << " " << kq2 <<" " <<<<  endl ; 
+		cout << endl ; 
+		
+	}
+
+	return 0 ; 
+}
+
