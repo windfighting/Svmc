@@ -1,0 +1,121 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+using namespace std ; 
+int n ; 
+int A[5][3] ; 
+int result[2][3] ; 
+int vs[4] ;
+int count1 = 0 ; 
+int vsGhe[62] ; 
+int d = 0 ; 
+int min1 = 999999 ; 
+void vaoCua(int x , int y)
+{
+	int gate = A[x][0] ;
+	int r = gate , l ; 		
+	int sn = A[x][1] ; 
+	if(vsGhe[gate] == 0)
+	{
+		vsGhe[gate] = 1 ; 
+		sn-- ; 
+		d++ ; 
+	}
+	// trai
+	while(y==1 && sn > 0 )
+	{
+		r-- ; 
+		if(!vsGhe[r] && r>= 1 && sn > 0 )
+		{
+			sn--; 
+			vsGhe[r] = 1 ; 
+			d += (gate - r) + 1 ; 
+		}
+
+		l = 2*gate - r ; 
+		if(!vsGhe[l] && l <= n && sn > 0 )
+		{
+			sn--;
+			vsGhe[l] = 1 ; 
+			d+= (l-gate) + 1 ; 
+		}
+	}
+	// phai
+	l = gate ; 
+	while(y==2 && sn > 0 )
+	{
+		l++ ; 
+
+		if(!vsGhe[l] && l <= n && sn > 0 )
+		{
+			sn-- ; 
+			vsGhe[l] = 1 ; 
+			d+= (l-gate) + 1 ; 
+		}
+		r = 2*gate - l ; 
+		if(!vsGhe[r] && r>= 1 && sn > 0 )
+		{
+			sn-- ; 
+			vsGhe[r] = 1 ; 
+			d += (gate - r) + 1 ; 
+		}
+	}
+}
+void bt(int id)
+{
+	if(id == 3)
+	{
+		for(int i = 0 ; i < 3; i ++)
+		{
+			vaoCua(result[0][i] , result[1][i]); 
+		}
+		if(min1 > d) 
+		{
+			min1 = d ; 
+		}
+		for(int i = 0 ; i <= 63; i ++)
+		{
+			vsGhe[i] = 0 ; 
+		}
+		d = 0 ; 
+		return ; 
+	}
+
+	for(int i = 1 ; i <= 3 ; i++)
+	{
+		if(!vs[i])
+		{
+			vs[i] =1;
+			result[0][id] =i;
+			result[1][id] = 1;
+			bt(id+1);
+			result[1][id] = 2;
+			bt(id+1);
+			vs[i] =0;
+		}
+	}
+}
+int main()
+{
+	//freopen("input.txt" , "r" , stdin) ; 
+	int T ; 
+	cin >> T ; 
+	for(int tc = 1 ; tc <= T ; tc ++)
+	{
+		cin >> n ; 
+		min1 = 999999 ; 
+		d = 0 ; 
+		for(int i = 0 ; i <= 63; i ++)
+		{
+			vsGhe[i] = 0 ; 
+		}
+		for(int i = 1 ; i <= 3 ; i++)
+		{
+			cin >> A[i][0] >> A[i][1] ; 
+		}
+		bt(0) ; 
+		cout << "Case #" << tc << endl ;
+		cout << min1 << endl ; 
+	}
+	return 0 ; 
+}
