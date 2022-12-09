@@ -1,0 +1,326 @@
+Hugo cần đi qua 1 đoạn đường B.
+
+Trên đoạn đường đi qua có N cổng. Tại mỗi cổng có 1 số lượng binh sĩ và giá để đi qua cổng đó. Muốn đi qua mỗi cổng Hugo có 3 cách lựa chọn.
+
+1. Pass
+
+Trả số tiền quy định ở cổng đó để được đi qua
+
+2. Hire
+
+Trả gấp đôi số tiền ở cổng đó để thuê số binh sĩ gộp vào đoàn quân của mình
+
+3. battle
+
+Điều kiện để đánh nhau là số quân của Hugo >= số lượng lính tại cổng đó. Có các lưu ý:
+
++ Hugo k được tính vào số lượng của quân
+
++ Mỗi người lính chỉ tham gia được vào tối đa 3 trận đánh. Sau 3 trận đánh nếu đi nhóm binh sĩ đó còn sống thì cũng giải tán.
+
++ Mỗi trận đánh thì tất cả số binh sĩ đều tham gia.
+
++ Đánh nhau chết theo tỉ lệ 1: 1. Ai tham gia trước sẽ bị chết trước
+
+Input:
+Dòng đầu tiên là số lượng trường hợp thử nghiệm
+
+Mỗi trường hợp thử nghiệm sẽ có
+          Dòng đầu tiên chứa số lượng cổng N
+
+          N dòng tiếp theo chứa 2 số là số binh lính và chi phí tại mỗi cổng
+
+Output: In ra chi phí nhỏ nhất Hugo có thể đi qua đoạn đường B
+
+Điều kiện input: số cổng <=20
+
+-      2 <=Số lính và chi phí đi qua <=1000
+
+VD:
+
+Input
+2
+
+7
+
+10 100
+
+70 5
+
+80 15
+
+20 60
+
+50 90
+
+30 80
+
+10 10
+
+9
+
+600 800
+
+300 400
+
+300 400
+
+1000 400
+
+300 600
+
+100 300
+
+600 300
+
+600 500
+
+1000 300
+
+ 
+
+Output:
+
+#1 150
+
+#2 3000
+
+Giải thích
+
+ 
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+Số binh sĩ
+
+10
+
+70
+
+80
+
+20
+
+50
+
+30
+
+10
+
+Chi phí
+
+100
+
+5
+
+15
+
+60
+
+90
+
+80
+
+10
+
+ 
+
+ 
+
+ 
+
+ 
+
+Có thể tính chi phí đi nhỏ nhất
+
+ 
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+Số binh sĩ
+
+10
+
+70
+
+80
+
+20
+
+50
+
+30
+
+10
+
+Chi phí
+
+100
+
+5
+
+15
+
+60
+
+90
+
+80
+
+10
+
+Chọn pp
+
+Pass
+
+Hire
+
+Hire
+
+Battle
+
+Battle
+
+Battle
+
+Pass
+
+Chi phí
+
+100
+
+110
+
+140
+
+ 
+
+ 
+
+ 
+
+150
+
+
+
+
+
+import java.util.Scanner;
+
+
+
+public class Solution {
+
+	public static boolean [][] visit;
+	
+	 static Point [] arr;
+	 static int [] a;
+
+	 static int  n, answer, m, l, r, dem, sums ;
+
+	 static int kq;
+	 static boolean check;
+
+	 static Point []  Q;
+	public static void main(String[] args)  {
+		
+		Scanner in = new Scanner(System.in);
+		
+		int T =in.nextInt();
+		
+		
+		for(int tc=1;tc<=T;tc++){
+			
+			n = in.nextInt();
+			
+			arr = new Point[n+1];
+			
+			for (int i = 0; i < n; i++) {
+				arr [i]= new Point(in.nextInt(), in.nextInt());
+			}
+			a = new int[4];
+			answer =1000000;
+			
+			for (int j = 0; j < 3; j++) {
+				a[j]=0;
+			}
+			Try(0, 0, 0, 0, 0);
+		System.out.print("#"+ tc+" ");
+		System.out.println(answer);
+		
+		
+		}
+	}
+	
+	
+	public static void Try(int i, int kq, int a1, int a2, int a3) {
+		if (kq< answer) {
+			if (i == n) {
+				if (answer > kq) {
+					answer = kq;
+				}
+				
+			}else {
+				Try(i+1, kq + arr[i].y, a1, a2, a3);
+				
+				Try(i+1, kq + arr[i].y*2 , a1, a2, a3+arr[i].x);
+				
+				if (a1 + a2 + a3  >= arr[i].x) {
+					int linh = arr[i].x;
+					linh = linh - a1;
+					if (linh<=0) {
+						Try(i+1, kq, a2, a3, 0);
+					}else {
+						linh = linh - a2;
+						if (linh <=0) {
+							Try(i+1, kq, Math.abs(linh) , a3, 0 );
+						}
+						else {
+							linh = linh - a3;
+							Try(i+1, kq, 0 , Math.abs(linh), 0 );
+						}
+					}
+				}
+			}
+		}
+		
+	}
+}
+
+class Point{
+	int x, y;
+	public Point(int x, int y) {
+		super();
+		this.x = x;
+		this.y = y;
+	}
+	
+}
+
+
+
+
