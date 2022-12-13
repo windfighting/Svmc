@@ -596,3 +596,90 @@ input
 963 152 140 177 655 847 431 924 262 387 398 303 516 339 304 
 56 438 171 925 71 562 386 432 147 100 575 494 184 404 343 
 836 282 474 809 199 848 862 489 120 786 554 444 340 429 90
+
+
+
+
+#include <iostream>
+using namespace std;
+
+int visit[15][15];
+int map[15][15];
+int m,n;
+int ans;
+int dx_l[6] ={-1, 0, 1, 1, 1, 0};
+int dx_c[6] ={-1,-1, 0, 1, 0,-1};
+int dy[6]   ={ 0, 1, 1, 0,-1,-1};
+
+bool isSafe(int x, int y){
+	if( x >= 0 && x < n && y >= 0 && y < m )
+		return true;
+	return false;
+}
+void bt(int dem, int x, int y, int sum)
+{
+	if (dem == 4)
+	{
+		if(sum > ans) ans = sum;
+		return;
+	}
+
+	for (int i = 0; i < 6; i++){
+		if (y% 2 != 0){
+			int xx = x + dx_l[i];
+			int yy = y + dy[i];
+
+			if (isSafe(xx,yy)){
+				if (visit[xx][yy] == 0){
+					visit[xx][yy] = 1;
+					bt(dem + 1, xx,yy, sum + map[xx][yy]);
+					bt(dem + 1, x, y, sum + map[xx][yy]);
+					visit[xx][yy] = 0;
+				}
+			}
+		}
+		else{
+			int xx = x + dx_c[i];
+			int yy = y + dy[i];
+
+			if (isSafe(xx,yy)){
+				if (visit[xx][yy] == 0){
+					visit[xx][yy] = 1;
+					bt(dem + 1, xx,yy, sum + map[xx][yy]);
+					bt(dem + 1, x, y, sum + map[xx][yy]);
+					visit[xx][yy] = 0;
+				}
+			}
+		}
+	}
+}
+
+int main(){
+//	freopen("input.txt", "r", stdin);
+	int  T;
+	cin >> T;
+	for (int tc = 1; tc <= T; tc++){
+		cin >> m >> n;
+		for(int i = 0; i < n; i++)
+		{
+			for (int j = 0; j < m; j++)
+			{
+				cin >> map[i][j];
+				visit[i][j] = 0;
+			}
+		}
+		ans = 0;
+		for(int i = 0; i < n; i++)
+		{
+			for (int j = 0; j < m; j++)
+			{
+				visit[i][j] = 1;
+				bt(1,i, j, map[i][j]);
+				visit[i][j] = 0;
+			}
+		}
+
+		cout << "Case #"<< tc << endl<< ans * ans << endl;
+	}
+	return 0;
+}
