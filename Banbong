@@ -1,0 +1,134 @@
+Cho N quả bóng bay với mỗi quả bóng bay có 1 giá trị số.
+Người chơi được yêu cầu bắn vỡ các quả bóng bay để có được số điểm lớn nhất.
+
+Điểm của người chơi sẽ được tính bằng tổng các lần bắn bóng bay.
+Điểm của mỗi lần bắn bóng bay sẽ bằng tích của 2 quả bóng bay bên cạnh.
+
+Nếu bên cạnh chỉ có 1 quả bóng bay thì điểm sẽ bằng điểm của quả bóng bay này.
+
+Nếu không còn quả bóng bay nào bên cạnh thì điểm sẽ bằng điểm của quả bóng bay vừa bị bắn.
+
+
+
+Hãy tìm điểm số lớn nhất và in ra.
+N <=10
+
+Điểm của các quả bóng <10000
+
+Định dạng in ra như bên dưới.
+
+input:
+
+3
+
+9
+
+49 26 22 17 74 65 10 55 60
+
+9
+
+99 31 28 79 82 77 95 86 19
+
+6
+
+24 41 22 97 39 41
+
+Ouput:
+
+#1 22323
+
+#2 46499
+
+#3 11348
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import java.util.Scanner;
+
+public class Solution {
+	static int a[] = new int[10], N=10, visit[] = new int[11];
+	static int ans;
+	static void backtrack(int k, int sum) {
+		if (k==N) {
+			if (sum>ans) {
+				ans=sum;
+			}
+			return;
+		}
+		
+		for(int i =0;i<N;i++) {
+			// chon
+			int t = i-1;
+			int p = i+1;
+			int checktrai = 0;
+			int checkphai = 0;
+			int trai = 1;
+			int phai = 1;
+			if (visit[i]==0) { //  chua tham
+				visit[i] = 1;
+				// di trai
+				
+				while(t>=0 && checktrai==0) {
+					if (visit[t]==0) {
+						checktrai = 1;
+						trai = a[t];
+					}
+					t--;
+				}
+				while(p<N&& checkphai == 0) {
+					if (visit[p]==0) {
+						checkphai=1;
+						phai = a[p];
+					}
+					p++;
+				}
+				if (checktrai == 0 && checkphai == 0) {// chi con 1 bong
+					backtrack(k+1, sum + a[i]);
+				}else {
+					backtrack(k+1, sum+ phai*trai);
+				}
+				visit[i]=0;
+				// di phai
+			}
+			// khong chon
+		}
+		
+	}
+	public static void main(String[] args) throws Exception {
+		//System.setIn(new FileInputStream("input.txt"));
+		Scanner sc = new Scanner(System.in);
+		int T = sc.nextInt();
+		for (int tc = 1; tc <= T; tc++) {
+            System.out.print("#"+tc+" ");
+			N = sc.nextInt();
+			ans = 0;
+			//reset
+			for(int i =0;i<N;i++) {
+				visit[i]=0;
+			}
+			for(int i=0;i<N;i++) {
+				a[i]=sc.nextInt();
+			}
+			backtrack(0, 0);
+			System.out.println(ans);
+		}
+		
+		
+		
+	}
+}
